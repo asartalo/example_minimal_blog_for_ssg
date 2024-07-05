@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<article class="article-full">
+  <header>
+    <h1>{{ page.title }}</h1>
+    <div class="meta">
+      <div class="time">
+        {{ "Started on: " }}
+        <time datetime="{{ page.date | date(format="%+") }}">
+          {{ page.date | date(format="%b. %e, %Y") }}
+        </time>
+      </div>
+    </div>
+  </header>
+  <section class="article-body">
+    <p>{{ page.description }}<p>
+    <dl>
+      <dt>Status:</dt>
+      <dd>{{ page.extra.status }}</dd>
+      <dt>Link:</dt>
+      <dd>
+        <a href="{{ page.extra.link }}">{{ page.extra.link }}</a>
+      </dd>
+    </dl>
+
+    {% if page.content %}
+      {{ page.content | safe }}
+    {% endif %}
+  </section>
+  <footer>
+    <div class="tags">
+      {% for taxo_kind, items in page.taxonomies %}
+        {% set taxo = get_taxonomy(kind=taxo_kind, lang=lang) %}
+        {% for item in items %}
+          <a class="c-tag" href="/{{ taxo_kind }}/{{ item }}">{{ item }}</a>
+        {% endfor %}
+      {% endfor %}
+    </div>
+    <nav class="p-pagination c-pagination">
+      <div class="c-pagination c-pagination__ctrl">
+        <div class="c-pagination c-pagination__older">
+          <a href="/#">Older</a>
+        </div>
+        <div class="c-pagination c-pagination__newer">
+          <a href="/#">Newer</a>
+        </div>
+      </div>
+    </nav>
+  </footer>
+</article>
+{% endblock content %}
+

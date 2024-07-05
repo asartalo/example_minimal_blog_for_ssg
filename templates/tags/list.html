@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<article class="article-full">
+  <header>
+    <h1>Tags used on this site:</h1>
+  </header>
+  <section class="article-body">
+    <ul class="tag-cloud">
+      {% for tag in terms %}
+      <li data-count="{{ tag.pages | length }}">
+        <a href="{{ tag.permalink }}">{{ tag.name }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+</article>
+{% endblock content %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="basic-header">
+  <p class="intro">Pages tagged with:</p>
+  <h1>{{ term.name }}</h1>
+</header>
+<section class="posts">
+  {% for page in term.pages %}
+  <article class="summary">
+    <h1 class="post__title"><a href="{{ page.permalink | safe }}">{{ page.title | safe }}</a></h1>
+    {{ page.summary | safe }}
+  </article>
+  {% endfor %}
+</section>
+{% endblock content %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="posts" aria-label="Posts">
+  <h1><a href="/posts">Recent Posts</a></h1>
+  {% set section = get_section(path="posts/_index.md") %}
+  {% for page in section.pages %}
+    <article class="summary">
+      <h1>
+        <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
+      </h1>
+      <div class="meta">
+        <time datetime="{{ page.date | date(format="%+") }}">
+          {{ page.date | date(format="%b. %e, %Y") }}
+        </time>
+      </div>
+      <div>
+        {% if page.summary %}
+          {{ page.summary | safe }}
+          <p><a href="{{ page.permalink | safe }}">Read more…</a></p>
+        {% else %}
+          {{ page.content | truncate(length=200) | safe }}
+        {% endif %}
+      </div>
+    </article>
+  {% endfor %}
+</section>
+
+<section class="projects" aria-label="Projects">
+  <h1>Projects</h1>
+  {% set projects = get_section(path="projects/_index.md") %}
+  <ul class="projects-list active-projects">
+  {% for project in projects.pages %}
+    {% if project.extra.status == "active" %}
+      <li>
+        <h2>
+          <a href="{{ project.extra.link }}">{{ project.title }}</a>
+        </h2>
+        <p class="description">{{ project.description }}</p>
+        <p class="meta">
+        <strong>Status: </strong> {{ project.extra.status}}
+        </p>
+      </li>
+    {% endif %}
+  {% endfor %}
+  </ul>
+
+  <h2>Previous Projects</h2>
+  <ul class="projects-list">
+  {% for project in projects.pages %}
+    {% if project.extra.status != "active" %}
+      <li>
+        <h2>
+          <a href="{{ project.extra.link }}">{{ project.title }}</a>
+        </h2>
+        <p class="description">{{ project.description }}</p>
+        <p class="meta">
+        <strong>Status: </strong> {{ project.extra.status}}
+        </p>
+      </li>
+    {% endif %}
+  {% endfor %}
+  </ul>
+</section>
+{% endblock content %}

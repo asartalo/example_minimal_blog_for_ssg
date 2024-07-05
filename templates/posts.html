@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="basic-header">
+  <h1 class="title">Posts</h1>
+</header>
+<!-- If you are using pagination, section.pages will be empty. You need to use the paginator object -->  
+{% for page in paginator.pages %}
+<article class="summary">
+  <h1>
+    <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
+  </h1>
+  <div class="meta">
+    <time datetime="{{ page.date | date(format="%+") }}">
+      {{ page.date | date(format="%b. %e, %Y") }}
+    </time>
+  </div>
+  <div>
+    {% if page.summary %}
+    {{ page.summary | safe }}
+    <p><a href="{{ page.permalink | safe }}">Read more…</a></p>
+    {% else %}
+    {{ page.content | truncate(length=200) | safe }}
+    {% endif %}
+  </div>
+</article>
+{% endfor %}
+
+<nav class="p-pagination c-pagination">
+  <div class="c-pagination__ctrl">
+    <div class="c-pagination__older">
+      {% if paginator.previous %}
+      <a href="{{ paginator.previous }}">
+        ← Previous
+      </a>
+      {% endif %}
+    </div>
+    <div>{{ paginator.current_index }} of {{ paginator.number_pagers }}</div>
+    <div class="c-pagination__newer">
+      {% if paginator.next %}
+      <a href="{{ paginator.next }}">
+        Next →
+      </a>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+{% endblock content %}
